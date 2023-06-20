@@ -1,22 +1,48 @@
-import {ImageBackground, StyleSheet,  View} from 'react-native';
-const image = {uri: '../Assets/images/image_bg.jpg'};
+import { StyleSheet,  View, Image} from 'react-native';
+
+// let imagePhoto = require('/src/Assets/Add photo.png')
+
+
 
 export const RegistrationScreen =()=>{
     return(
-<View style={styles.container}>
-    <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-     
-    </ImageBackground>
+<View style={styles.wrapper}>
+
+  <View style={styles.iconContainer}>
+  <Image
+  source={require('/assets/images/add_photo.png')}
+  style={styles.image}/>
+  </View>
+  
+   
   </View>
     )
 }
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
+    wrapper: {
+      flex:1,
+      // height: '75%',
+      backgroundColor: 'white',
+      // position: 'absolute',
+      // top: '25%',
     },
+    // container: {
+    //   flex: 1,
+    //   backgroundColor: 'white',
+    // },
     image: {
-      flex: 1,
-      justifyContent: 'center',
+      width: 30,
+      height: 30,
     },
+    iconContainer: {
+      flex:1,
+   
+    // backgroundColor: "red",
+    // borderRadius: 16,
+    // marginBottom: 32,
     
-  });
+    }
+
+   
+    
+  ,});
