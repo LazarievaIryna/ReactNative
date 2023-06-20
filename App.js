@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { StyleSheet,  View, ImageBackground, Text} from 'react-native';
-import { RegistrationScreen } from './src/Screens/RegistrationScreen';
+import { RegistrationScreen } from './Screens/RegistrationScreen';
 import * as SplashScreen from 'expo-splash-screen';
 
 SplashScreen.preventAutoHideAsync();
