@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 import { StyleSheet,  View, ImageBackground, Text} from 'react-native';
 import { RegistrationScreen } from './Screens/RegistrationScreen';
 import * as SplashScreen from 'expo-splash-screen';
+import { LoginScreen } from './Screens/LoginScreen';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,9 +33,9 @@ export default function App() {
       <ImageBackground 
       source={require("./assets/image_bg.jpg")} 
       style={styles.image}>
-{/* <Text>Open up App.js to start working on your app!</Text> */}
-{/* <RegistrationScreen/> */}
+
 <RegistrationScreen/>
+{/* <LoginScreen/> */}
       </ImageBackground>
       
       

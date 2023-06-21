@@ -1,13 +1,14 @@
 import { View, StyleSheet, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image } from "react-native"
 import { useState } from "react"
-import { defaultStyles, inputOnFocusStyles } from "../DefaultStyles/DefaultStyles"
 
 
 
 export const RegistrationScreen =()=>{
-  const [isFocusInput, setIsFocusInput]=useState(defaultStyles.input)
+  const [isFocusInput, setIsFocusInput]=useState('')
 
-
+const focusInput = (input)=>{
+  setIsFocusInput(input)
+}
 
   return(
     
@@ -32,17 +33,27 @@ export const RegistrationScreen =()=>{
 </View>
 <Text style={styles.title}>Реєстрація</Text>
 
-  <TextInput style={{...styles.input, isFocusInput}} 
-  onFocus={()=>{setIsFocusInput(inputOnFocusStyles)}}
+  <TextInput 
+  style={[styles.input,
+  isFocusInput==='login' && styles.inputActive,]} 
+  onFocus={()=>{setIsFocusInput('login')}}
   placeholder="Логін"/>
 
-  <TextInput style={styles.input} 
-  onFocus={()=>{setIsFocusInput(true)}}
+  <TextInput style={[styles.input,
+  isFocusInput==='email' && styles.inputActive,]} 
+  onFocus={()=>{setIsFocusInput('email')}}
   placeholder="Адреса електронної пошти"/>
-
-  <TextInput style={styles.input} 
-  onFocus={()=>{setIsFocusInput(true)}}
+<View style={styles.inputWrapper}>
+  <TextInput style={[styles.input,
+  isFocusInput==='password' && styles.inputActive,]} 
+  onFocus={()=>{setIsFocusInput('password')}}
+  secureTextEntry={true}
   placeholder="Пароль"/>
+  </View>
+
+  <TouchableOpacity style={styles.showPasswordBtn} activeOpacity={0.8}>
+    <Text style={styles.titleShowPasswordBtn}>Показати</Text>
+  </TouchableOpacity>
   
 
  <TouchableOpacity style={styles.btn} activeOpacity={0.8}>
@@ -79,10 +90,11 @@ const styles= StyleSheet.create({
   },
   
   input:{
+    
     borderWidth: 1,
     borderColor: '#E8E8E8',
     height: 50,
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
     borderStyle: 'solid',
    
     borderRadius: 8,
@@ -109,7 +121,7 @@ const styles= StyleSheet.create({
   btn:{
     height: 51,
     backgroundColor:'#FF6C00',
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
     borderRadius: 100,
     alignItems: 'center',
     
@@ -146,6 +158,36 @@ const styles= StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     borderColor: "#FF6C00",
+  },
+  inputActive: {
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+    borderRadius: 8,
+    borderStyle: "solid",
+    backgroundColor: "#FFFFFF",
+    padding: 16,
+    maxHeight: 50,
+    marginBottom: 16,
+    color: "#212121",
+    fontSize: 16,
+    fontFamily: "Roboto-Regular",
+    // fontWeight:400,
+    lineHeight: 19,
+  },
+  showPasswordBtn:{
+position: 'absolute',
+top: 309,
+left: 288,
+  },
+  titleShowPasswordBtn:{
+    color: '#1B4371',
+    fontFamily: 'Roboto-Regular',
+    fontWeight: 400,
+    lineHeight: 19,
+    fontSize: 16,
+  },
+  inputWrapper:{
+    position: 'relative',
   }
   
 })
