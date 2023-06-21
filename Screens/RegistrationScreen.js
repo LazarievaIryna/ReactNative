@@ -1,36 +1,44 @@
-import { View, StyleSheet, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image } from "react-native"
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image, TouchableWithoutFeedback,Keyboard, Platform } from "react-native"
 import { useState } from "react"
 
 
 
 export const RegistrationScreen =()=>{
   const [isFocusInput, setIsFocusInput]=useState('')
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
 const focusInput = (input)=>{
   setIsFocusInput(input)
 }
-
+const onLogin = () => {
+  console.log(`Registration data: ${login}+ ${email}+ ${password}`);
+};
+const toggleShowPassword = () => {
+  setIsShowPassword(!isShowPassword);
+};
   return(
     
-    
-    <View style={styles.wrapper}>
-       
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.wrapper}>
       <KeyboardAvoidingView
  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
- keyboardVerticalOffset={-97}
- >
-     
+//  keyboardVerticalOffset={-97}
+keyboardVerticalOffset={Platform.OS === "ios" ? -97 : -97}>
+
+       <View style={{...styles.formRegistration,}} >
+        
 
 
-      <View style={styles.formRegistration}>
 <View style={styles.addPhoto}>
-
 <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
-                <Image
-                  source={require("../assets/add.png")}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
+<Image
+source={require("../assets/add.png")}
+resizeMode="contain"
+/>
+</TouchableOpacity>
 
 </View>
 <Text style={styles.title}>Реєстрація</Text>
@@ -39,38 +47,52 @@ const focusInput = (input)=>{
   style={[styles.input,
   isFocusInput==='login' && styles.inputActive,]} 
   onFocus={()=>{focusInput('login')}}
-  placeholder="Логін"/>
+  placeholder="Логін"
+  value={login}
+  onChangeText={setLogin}
+  />
 
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
   onFocus={()=>{focusInput('email')}}
-  placeholder="Адреса електронної пошти"/>
+  placeholder="Адреса електронної пошти"
+  value={email}
+  onChangeText={setEmail}
+  />
 <View style={styles.inputWrapper}>
+
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
   onFocus={()=>{focusInput('password')}}
-  secureTextEntry={true}
-  placeholder="Пароль"/>
+  secureTextEntry={!isShowPassword}
+  placeholder="Пароль"
+  value={password}
+  onChangeText={setPassword}
+  />
   </View>
 
-  <TouchableOpacity style={styles.showPasswordBtn} activeOpacity={0.8}>
-    <Text style={styles.titleShowPasswordBtn}>Показати</Text>
+  <TouchableOpacity 
+  style={styles.showPasswordBtn} 
+  activeOpacity={0.8}
+  onPress={()=>{toggleShowPassword()}}>
+    <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
   </TouchableOpacity>
   
 
- <TouchableOpacity style={styles.btn} activeOpacity={0.8}>
+ <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
 <Text style={styles.btnTitle}>Зареєстуватися</Text>
   </TouchableOpacity>
 <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
+
+
 </View>
+
+
 </KeyboardAvoidingView>
-
-    </View>
-
-
+ </View>
+</TouchableWithoutFeedback>
     
-
-  )
+)
 }
 const styles= StyleSheet.create({
   container:{
@@ -207,3 +229,8 @@ left: 288,
   }
   
 })
+
+
+
+
+

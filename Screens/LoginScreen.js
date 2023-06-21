@@ -1,42 +1,63 @@
-import { View, StyleSheet, TextInput, Text, TouchableOpacity, KeyboardAvoidingView } from "react-native"
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, KeyboardAvoidingView,TouchableWithoutFeedback, Keyboard, Platform } from "react-native"
 import { useState } from "react"
 
 export const LoginScreen=()=>{
     const [isFocusInput, setIsFocusInput]=useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  const onLogin = () => {
+    console.log(`Login data: ${email}+ ${password}`);
+  };
+  const toggleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
 
     const focusInput = (input)=>{
       setIsFocusInput(input)
     }
     return(
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.wrapper}>
-<KeyboardAvoidingView
- behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
- keyboardVerticalOffset={-51}
- >
+           <KeyboardAvoidingView
+             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+             keyboardVerticalOffset={-19}
+           >
     <View style={styles.formRegistration}>
 
 <Text style={styles.title}>Увійти</Text>
 
-  
-
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
   onFocus={()=>{focusInput('email')}}
-  placeholder="Адреса електронної пошти"/>
+  placeholder="Адреса електронної пошти"
+  value={email}
+  onChangeText={setEmail}
+  />
+
 <View style={styles.inputWrapper}>
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
   onFocus={()=>{focusInput('password')}}
-  secureTextEntry={true}
-  placeholder="Пароль"/>
+  secureTextEntry={!isShowPassword}
+  placeholder="Пароль"
+  value={password}
+  onChangeText={setPassword}
+  />
   </View>
 
-  <TouchableOpacity style={styles.showPasswordBtn} activeOpacity={0.8} >
-    <Text style={styles.titleShowPasswordBtn}>Показати</Text>
+  <TouchableOpacity 
+  style={styles.showPasswordBtn} 
+  activeOpacity={0.8} 
+  onPress={()=>{toggleShowPassword()}}>
+    <Text style={styles.titleShowPasswordBtn}>
+        {!isShowPassword? "Показати" : "Сховати"}
+        </Text>
   </TouchableOpacity>
   
 
- <TouchableOpacity style={styles.btn} activeOpacity={0.8}>
+ <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
 <Text style={styles.btnTitle}>Увійти</Text>
   </TouchableOpacity>
 <Text style={styles.textLogin}>Немає акаунту?&nbsp;
@@ -45,6 +66,7 @@ export const LoginScreen=()=>{
 </View>
  </KeyboardAvoidingView>
         </View>
+        </TouchableWithoutFeedback>
     )
 }
 const styles= StyleSheet.create({
