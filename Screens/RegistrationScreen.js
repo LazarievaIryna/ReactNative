@@ -12,7 +12,9 @@ const focusInput = (input)=>{
 
   return(
     
+    
     <View style={styles.wrapper}>
+       
       <KeyboardAvoidingView
  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
  keyboardVerticalOffset={-97}
@@ -36,17 +38,17 @@ const focusInput = (input)=>{
   <TextInput 
   style={[styles.input,
   isFocusInput==='login' && styles.inputActive,]} 
-  onFocus={()=>{setIsFocusInput('login')}}
+  onFocus={()=>{focusInput('login')}}
   placeholder="Логін"/>
 
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
-  onFocus={()=>{setIsFocusInput('email')}}
+  onFocus={()=>{focusInput('email')}}
   placeholder="Адреса електронної пошти"/>
 <View style={styles.inputWrapper}>
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
-  onFocus={()=>{setIsFocusInput('password')}}
+  onFocus={()=>{focusInput('password')}}
   secureTextEntry={true}
   placeholder="Пароль"/>
   </View>
@@ -62,10 +64,18 @@ const focusInput = (input)=>{
 <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
 </View>
 </KeyboardAvoidingView>
+
     </View>
+
+
+    
+
   )
 }
 const styles= StyleSheet.create({
+  container:{
+    flex:1,
+  },
   wrapper:{
       flex:1, 
       justifyContent: 'flex-end',
@@ -188,6 +198,12 @@ left: 288,
   },
   inputWrapper:{
     position: 'relative',
+    
+  },
+  image:{
+   flex:1,
+   
+   
   }
   
 })

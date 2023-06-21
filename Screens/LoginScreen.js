@@ -21,12 +21,12 @@ export const LoginScreen=()=>{
 
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
-  onFocus={()=>{setIsFocusInput('email')}}
+  onFocus={()=>{focusInput('email')}}
   placeholder="Адреса електронної пошти"/>
 <View style={styles.inputWrapper}>
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
-  onFocus={()=>{setIsFocusInput('password')}}
+  onFocus={()=>{focusInput('password')}}
   secureTextEntry={true}
   placeholder="Пароль"/>
   </View>
