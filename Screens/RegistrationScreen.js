@@ -1,14 +1,12 @@
-import { View, StyleSheet, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image, TouchableWithoutFeedback,Keyboard, Platform } from "react-native"
+import { View, StyleSheet,ImageBackground, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image, TouchableWithoutFeedback,Keyboard, Platform } from "react-native"
 import { useState } from "react"
-
-
-
-export const RegistrationScreen =()=>{
+export const RegistrationScreen=()=>{
   const [isFocusInput, setIsFocusInput]=useState('')
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowKeyboard, setIsShowKeyboard]=useState(false);
 
 const focusInput = (input)=>{
   setIsFocusInput(input)
@@ -19,19 +17,31 @@ const onLogin = () => {
 const toggleShowPassword = () => {
   setIsShowPassword(!isShowPassword);
 };
+
   return(
-    
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.wrapper}>
-      <KeyboardAvoidingView
- behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-//  keyboardVerticalOffset={-97}
-keyboardVerticalOffset={Platform.OS === "ios" ? -97 : -97}>
+<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
-       <View style={{...styles.formRegistration,}} >
-        
+<View style={styles.container}>
 
+<ImageBackground
+source={require("../assets/image_bg.jpg")} 
+style={styles.image}>
 
+  <View style={styles.wrapper}>
+  {/* <View style={styles.addPhoto}>
+<TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
+<Image
+source={require("../assets/add.png")}
+resizeMode="contain"
+/>
+</TouchableOpacity>
+</View> */}
+<KeyboardAvoidingView
+behavior={Platform.OS == "android" ? "padding" : "height"}
+// keyboardVerticalOffset={Platform.OS === "ios" ? -300 : 0}
+>
+
+<View style={{...styles.formRegistration, paddingBottom: isShowKeyboard? 110:78}}>
 <View style={styles.addPhoto}>
 <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
@@ -39,68 +49,84 @@ source={require("../assets/add.png")}
 resizeMode="contain"
 />
 </TouchableOpacity>
-
 </View>
 <Text style={styles.title}>Реєстрація</Text>
-
+  <View style={styles.inputContainer}>
   <TextInput 
-  style={[styles.input,
-  isFocusInput==='login' && styles.inputActive,]} 
-  onFocus={()=>{focusInput('login')}}
-  placeholder="Логін"
-  value={login}
-  onChangeText={setLogin}
-  />
-
+    style={[styles.input,
+    isFocusInput==='login' && styles.inputActive,]} 
+    onFocus={()=>{
+      setIsShowKeyboard(true)
+      focusInput('login')}}
+    placeholder="Логін"
+    value={login}
+    onChangeText={setLogin}
+    />
+  </View>
+  <View style={styles.inputContainer}>
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
-  onFocus={()=>{focusInput('email')}}
+  onFocus={()=>{
+    setIsShowKeyboard(true)
+    focusInput('email')}}
   placeholder="Адреса електронної пошти"
   value={email}
   onChangeText={setEmail}
   />
-<View style={styles.inputWrapper}>
+  </View>
+  <View style={styles.inputWrapper}>
 
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
-  onFocus={()=>{focusInput('password')}}
+  onFocus={()=>{
+    setIsShowKeyboard(true)
+    focusInput('password')
+  }}
   secureTextEntry={!isShowPassword}
   placeholder="Пароль"
   value={password}
   onChangeText={setPassword}
   />
   </View>
-
   <TouchableOpacity 
   style={styles.showPasswordBtn} 
   activeOpacity={0.8}
   onPress={()=>{toggleShowPassword()}}>
     <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
   </TouchableOpacity>
-  
 
- <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
+  <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
 <Text style={styles.btnTitle}>Зареєстуватися</Text>
   </TouchableOpacity>
 <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
 
-
 </View>
 
 
+
 </KeyboardAvoidingView>
- </View>
+
+  </View>
+
+</ImageBackground>
+
+</View>
+
 </TouchableWithoutFeedback>
-    
-)
+  )
 }
 const styles= StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+flex: 1,
+  },
+  image:{
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'flex-end',
+    
   },
   wrapper:{
-      flex:1, 
-      justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   addPhoto: {
     position: "absolute",
@@ -111,6 +137,21 @@ const styles= StyleSheet.create({
     backgroundColor: "#f6f6f6",
     borderRadius: 16,
   },
+  btnAddPhoto:{
+    position: "absolute",
+    bottom: 14,
+    right: -12.5,
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    width: 25,
+    height: 25,
+    backgroundColor: "transparent",
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+  },
+      
   formRegistration:{
     
     paddingHorizontal: 16,
@@ -119,8 +160,12 @@ const styles= StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+
+    // marginBottom:78,
   },
-  
+  inputContainer:{
+    marginBottom:16,
+  },
   input:{
     
     borderWidth: 1,
@@ -135,10 +180,30 @@ const styles= StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
     lineHeight: 19,
-    marginBottom: 16,
+    // marginBottom: 16,
     
     
 },
+  inputActive: {
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+    borderRadius: 8,
+    borderStyle: "solid",
+    backgroundColor: "#FFFFFF",
+    padding: 16,
+    maxHeight: 50,
+    // marginBottom: 16,
+    color: "#212121",
+    fontSize: 16,
+    fontFamily: "Roboto-Regular",
+    // fontWeight:400,
+    lineHeight: 19,
+  },
+  inputWrapper:{
+    position: 'relative',
+    marginBottom:43,
+    
+  },
   title: {
     
     marginHorizontal: 'auto',
@@ -191,26 +256,6 @@ const styles= StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FF6C00",
   },
-  inputActive: {
-    borderWidth: 1,
-    borderColor: "#FF6C00",
-    borderRadius: 8,
-    borderStyle: "solid",
-    backgroundColor: "#FFFFFF",
-    padding: 16,
-    maxHeight: 50,
-    marginBottom: 16,
-    color: "#212121",
-    fontSize: 16,
-    fontFamily: "Roboto-Regular",
-    // fontWeight:400,
-    lineHeight: 19,
-  },
-  showPasswordBtn:{
-position: 'absolute',
-top: 309,
-left: 288,
-  },
   titleShowPasswordBtn:{
     color: '#1B4371',
     fontFamily: 'Roboto-Regular',
@@ -218,19 +263,9 @@ left: 288,
     lineHeight: 19,
     fontSize: 16,
   },
-  inputWrapper:{
-    position: 'relative',
-    
-  },
-  image:{
-   flex:1,
-   
-   
-  }
-  
+  showPasswordBtn:{
+    position: 'absolute',
+    top: 309,
+    left: 288,
+      },
 })
-
-
-
-
-

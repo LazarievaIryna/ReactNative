@@ -30,14 +30,12 @@ export default function App() {
   return (
     <>
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <ImageBackground 
-      source={require("./assets/image_bg.jpg")} 
-      style={styles.image}>
+    
 
 <RegistrationScreen/>
 {/* <LoginScreen/> */}
 
-      </ImageBackground>
+
       
       
       <StatusBar style="auto" />
