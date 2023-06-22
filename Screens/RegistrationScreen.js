@@ -41,7 +41,7 @@ behavior={Platform.OS == "android" ? "padding" : "height"}
 // keyboardVerticalOffset={Platform.OS === "ios" ? -300 : 0}
 >
 
-<View style={{...styles.formRegistration, paddingBottom: isShowKeyboard? 110:78}}>
+<View style={{...styles.formRegistration, marginBottom: isShowKeyboard? 0:28}}>
 <View style={styles.addPhoto}>
 <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
@@ -95,13 +95,16 @@ resizeMode="contain"
     <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
   </TouchableOpacity>
 
-  <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
+  {/* <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
+<Text style={styles.btnTitle}>Зареєстуватися</Text>
+  </TouchableOpacity>
+<Text style={styles.textLogin}>Вже є акаунт? Увійти</Text> */}
+
+</View>
+<TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
 <Text style={styles.btnTitle}>Зареєстуватися</Text>
   </TouchableOpacity>
 <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
-
-</View>
-
 
 
 </KeyboardAvoidingView>
@@ -126,7 +129,10 @@ flex: 1,
     
   },
   wrapper:{
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    backgroundColor: "#FFFFFF",
+    paddingBottom:78,
+    paddingHorizontal: 16,
   },
   addPhoto: {
     position: "absolute",
@@ -154,10 +160,10 @@ flex: 1,
       
   formRegistration:{
     
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     paddingTop: 92,
-    paddingBottom: 66,
-    backgroundColor: "#FFFFFF",
+    // paddingBottom: 66,
+    // backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
 
@@ -201,7 +207,7 @@ flex: 1,
   },
   inputWrapper:{
     position: 'relative',
-    marginBottom:43,
+    // marginBottom:43,
     
   },
   title: {
@@ -225,6 +231,7 @@ flex: 1,
     paddingTop:16,
     paddingBottom: 16,
     marginBottom: 16,
+    marginTop: 43,
 
   },
   btnTitle:{
