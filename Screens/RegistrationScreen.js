@@ -7,6 +7,7 @@ export const RegistrationScreen=()=>{
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard]=useState(false);
+ 
 
 const focusInput = (input)=>{
   setIsFocusInput(input)
@@ -28,20 +29,13 @@ source={require("../assets/image_bg.jpg")}
 style={styles.image}>
 
   <View style={styles.wrapper}>
-  {/* <View style={styles.addPhoto}>
-<TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
-<Image
-source={require("../assets/add.png")}
-resizeMode="contain"
-/>
-</TouchableOpacity>
-</View> */}
+ 
 <KeyboardAvoidingView
 behavior={Platform.OS == "android" ? "padding" : "height"}
 // keyboardVerticalOffset={Platform.OS === "ios" ? -300 : 0}
 >
 
-<View style={{...styles.formRegistration, marginBottom: isShowKeyboard? 0:28}}>
+<View style={{...styles.formRegistration}}>
 <View style={styles.addPhoto}>
 <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
@@ -51,7 +45,7 @@ resizeMode="contain"
 </TouchableOpacity>
 </View>
 <Text style={styles.title}>Реєстрація</Text>
-  <View style={styles.inputContainer}>
+  <View style={{...styles.inputContainer}}>
   <TextInput 
     style={[styles.input,
     isFocusInput==='login' && styles.inputActive,]} 
@@ -95,19 +89,14 @@ resizeMode="contain"
     <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
   </TouchableOpacity>
 
-  {/* <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
-<Text style={styles.btnTitle}>Зареєстуватися</Text>
-  </TouchableOpacity>
-<Text style={styles.textLogin}>Вже є акаунт? Увійти</Text> */}
 
 </View>
+</KeyboardAvoidingView>
 <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
 <Text style={styles.btnTitle}>Зареєстуватися</Text>
   </TouchableOpacity>
 <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
 
-
-</KeyboardAvoidingView>
 
   </View>
 
@@ -133,6 +122,8 @@ flex: 1,
     backgroundColor: "#FFFFFF",
     paddingBottom:78,
     paddingHorizontal: 16,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   addPhoto: {
     position: "absolute",
@@ -231,7 +222,7 @@ flex: 1,
     paddingTop:16,
     paddingBottom: 16,
     marginBottom: 16,
-    marginTop: 43,
+    // marginTop: 43,
 
   },
   btnTitle:{
