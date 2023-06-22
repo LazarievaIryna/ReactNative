@@ -35,7 +35,7 @@ behavior={Platform.OS == "android" ? "padding" : "height"}
 // keyboardVerticalOffset={Platform.OS === "ios" ? -300 : 0}
 >
 
-<View style={{...styles.formRegistration}}>
+<View style={{...styles.formRegistration, paddingBottom: isShowKeyboard ? 32:32}}>
 <View style={styles.addPhoto}>
 <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
@@ -45,13 +45,13 @@ resizeMode="contain"
 </TouchableOpacity>
 </View>
 <Text style={styles.title}>Реєстрація</Text>
-  <View style={{...styles.inputContainer}}>
+  <View style={{...styles.inputContainer, paddingBottom: isShowKeyboard ? 0:52}}>
   <TextInput 
     style={[styles.input,
     isFocusInput==='login' && styles.inputActive,]} 
     onFocus={()=>{
       setIsShowKeyboard(true)
-      focusInput('login')}}
+      focusInput('login') }}
     placeholder="Логін"
     value={login}
     onChangeText={setLogin}
