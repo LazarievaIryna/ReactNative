@@ -1,30 +1,44 @@
 import { View, StyleSheet,ImageBackground, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image, TouchableWithoutFeedback,Keyboard, Platform } from "react-native"
 import { useState } from "react"
+
+
+const initialState={
+  login: '',
+  email: '',
+  password:'',
+
+}
 export const RegistrationScreen=()=>{
   const [isFocusInput, setIsFocusInput]=useState('')
-  const [login, setLogin] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard]=useState(false);
+  const [formState, setFormState]=useState(initialState)
+
+  const {login, email, password}=formState;
  
 
 const focusInput = (input)=>{
   setIsFocusInput(input),
   setIsShowKeyboard(true)
+  
 }
-const onLogin = () => {
-  console.log(`Registration data: ${login}+ ${email}+ ${password}`);
-};
+
 const toggleShowPassword = () => {
   setIsShowPassword(!isShowPassword);
 };
 const handleKeyboardHide = () => {
-  
   setIsShowKeyboard(false);
-  
   Keyboard.dismiss();
+  
+  
 };
+const handleSubmit=()=>{
+  setIsShowKeyboard(false);
+  Keyboard.dismiss();
+  console.log(formState)
+  setFormState(initialState)
+}
+
 
   return(
 <TouchableWithoutFeedback onPress={handleKeyboardHide}>
@@ -39,41 +53,41 @@ style={styles.image}>
  
 <KeyboardAvoidingView
 behavior={Platform.OS == "android" ? "padding" : "height"}
-// keyboardVerticalOffset={Platform.OS === "ios" ? -300 : 0}
+
 >
 
 <View style={{...styles.formRegistration}}>
 <View style={styles.addPhoto}>
-<TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
+
+  <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
 source={require("../assets/add.png")}
 resizeMode="contain"
 />
 </TouchableOpacity>
 </View>
-<Text style={styles.title}>Реєстрація</Text>
+  <Text style={styles.title}>Реєстрація</Text>
   <View style={{...styles.inputContainer}}>
-  <TextInput 
+    <TextInput 
     style={[styles.input,
     isFocusInput==='login' && styles.inputActive,]} 
     onFocus={()=>{
-      // setIsShowKeyboard(true)
       focusInput('login') }}
     placeholder="Логін"
     value={login}
-    onChangeText={setLogin}
+    onChangeText={(value)=>{setFormState((prevState)=>({...prevState, login: value}))}}
     onSubmitEditing={handleKeyboardHide}
     />
   </View>
+
   <View style={styles.inputContainer}>
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
   onFocus={()=>{
-    // setIsShowKeyboard(true)
     focusInput('email')}}
   placeholder="Адреса електронної пошти"
   value={email}
-  onChangeText={setEmail}
+  onChangeText={(value)=>{setFormState((prevState)=>({...prevState, email: value}))}}
   onSubmitEditing={handleKeyboardHide}
   />
   </View>
@@ -82,17 +96,15 @@ resizeMode="contain"
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
   onFocus={()=>{
-    // setIsShowKeyboard(true)
     focusInput('password')
   }}
   secureTextEntry={!isShowPassword}
   placeholder="Пароль"
   value={password}
-  onChangeText={setPassword}
+  onChangeText={(value)=>{setFormState((prevState)=>({...prevState, password: value}))}}
   onSubmitEditing={handleKeyboardHide}
   />
    <TouchableOpacity 
-  // style={styles.showPasswordBtn} 
   activeOpacity={0.8}
   onPress={()=>{toggleShowPassword()}}>
     <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
@@ -103,7 +115,7 @@ resizeMode="contain"
 
 </View>
 </KeyboardAvoidingView>
-<TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
+<TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={handleSubmit}>
 <Text style={styles.btnTitle}>Зареєстуватися</Text>
   </TouchableOpacity>
 <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
@@ -162,14 +174,12 @@ flex: 1,
       
   formRegistration:{
     
-    // paddingHorizontal: 16,
+  
     paddingTop: 92,
-    // paddingBottom: 66,
-    // backgroundColor: "#FFFFFF",
+    
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
 
-    // marginBottom:78,
   },
   inputContainer:{
     marginBottom:16,
@@ -179,7 +189,7 @@ flex: 1,
     borderWidth: 1,
     borderColor: '#E8E8E8',
     height: 50,
-    // marginHorizontal: 16,
+    
     borderStyle: 'solid',
    
     borderRadius: 8,
@@ -188,7 +198,7 @@ flex: 1,
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
     lineHeight: 19,
-    // marginBottom: 16,
+   
     
     
 },
@@ -200,16 +210,16 @@ flex: 1,
     backgroundColor: "#FFFFFF",
     padding: 16,
     maxHeight: 50,
-    // marginBottom: 16,
+    
     color: "#212121",
     fontSize: 16,
     fontFamily: "Roboto-Regular",
-    // fontWeight:400,
+    
     lineHeight: 19,
   },
   inputWrapper:{
     position: 'relative',
-    // marginBottom:43,
+  
     
   },
   title: {
@@ -226,14 +236,14 @@ flex: 1,
   btn:{
     height: 51,
     backgroundColor:'#FF6C00',
-    // marginHorizontal: 16,
+
     borderRadius: 100,
     alignItems: 'center',
     
     paddingTop:16,
     paddingBottom: 16,
     marginBottom: 16,
-    // marginTop: 43,
+ 
 
   },
   btnTitle:{
@@ -275,9 +285,5 @@ flex: 1,
     right:16,
     bottom: 16,
   },
-  // showPasswordBtn:{
-  //   position: 'absolute',
-  //   top: 309,
-  //   left: 288,
-  //     },
+  
 })
