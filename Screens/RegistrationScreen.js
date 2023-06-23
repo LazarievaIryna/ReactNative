@@ -8,7 +8,7 @@ const initialState={
   password:'',
 
 }
-export const RegistrationScreen=()=>{
+ const RegistrationScreen=({ navigation })=>{
   const [isFocusInput, setIsFocusInput]=useState('')
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard]=useState(false);
@@ -115,10 +115,20 @@ resizeMode="contain"
 
 </View>
 </KeyboardAvoidingView>
-<TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={handleSubmit}>
+<TouchableOpacity 
+style={styles.btn} 
+  activeOpacity={0.8} 
+  onPress={handleSubmit}>
 <Text style={styles.btnTitle}>Зареєстуватися</Text>
+
   </TouchableOpacity>
-<Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
+
+  <TouchableOpacity
+  activeOpacity={0.8}
+  onPress={() => navigation.navigate("Login")} >
+    <Text  style={styles.textLogin}>Вже є акаунт? Увійти</Text>
+    </TouchableOpacity>
+
 
 
   </View>
@@ -287,3 +297,4 @@ flex: 1,
   },
   
 })
+export default RegistrationScreen;

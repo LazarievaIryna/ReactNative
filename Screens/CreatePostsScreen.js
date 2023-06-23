@@ -1,8 +1,9 @@
 import { View, Text} from "react-native"
-export const CreatePostsScreen=()=>{
+ const CreatePostsScreen=()=>{
     return(
         <View>
             <Text>CreatePostsScreen</Text>
         </View>
     )
 }
+export default CreatePostsScreen;

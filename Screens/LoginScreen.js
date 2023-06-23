@@ -7,7 +7,7 @@ const initialState={
 
 }
 
-export const LoginScreen=()=>{
+ const LoginScreen=({ navigation })=>{
   const [isFocusInput, setIsFocusInput]=useState('')
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard]=useState(false);
@@ -27,6 +27,7 @@ const handleSubmit=()=>{
   setIsShowKeyboard(false);
   Keyboard.dismiss();
   console.log(formState)
+  navigation.navigate("Home")
   setFormState(initialState)
 }
 
@@ -100,12 +101,19 @@ resizeMode="contain"
   </View>
   
 
-  <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={handleSubmit}>
+  <TouchableOpacity 
+  style={styles.btn} 
+  activeOpacity={0.8} 
+  onPress={handleSubmit}>
   <Text style={styles.btnTitle}>Увійти</Text>
     </TouchableOpacity>
+    <TouchableOpacity
+    activeOpacity={0.8} 
+    onPress={() => navigation.navigate("Registration")}>
     <Text style={styles.textLogin}>Немає акаунту?&nbsp;
 <Text style={styles.textUnderline}>Зареєструватися</Text>
 </Text>
+</TouchableOpacity>
 
 </View>
 
@@ -280,3 +288,4 @@ flex: 1,
   textDecorationLine:'underline'
       }
 })
+export default LoginScreen;
