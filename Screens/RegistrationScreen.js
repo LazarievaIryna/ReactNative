@@ -10,7 +10,8 @@ export const RegistrationScreen=()=>{
  
 
 const focusInput = (input)=>{
-  setIsFocusInput(input)
+  setIsFocusInput(input),
+  setIsShowKeyboard(true)
 }
 const onLogin = () => {
   console.log(`Registration data: ${login}+ ${email}+ ${password}`);
@@ -18,9 +19,15 @@ const onLogin = () => {
 const toggleShowPassword = () => {
   setIsShowPassword(!isShowPassword);
 };
+const handleKeyboardHide = () => {
+  
+  setIsShowKeyboard(false);
+  
+  Keyboard.dismiss();
+};
 
   return(
-<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+<TouchableWithoutFeedback onPress={handleKeyboardHide}>
 
 <View style={styles.container}>
 
@@ -35,7 +42,7 @@ behavior={Platform.OS == "android" ? "padding" : "height"}
 // keyboardVerticalOffset={Platform.OS === "ios" ? -300 : 0}
 >
 
-<View style={{...styles.formRegistration, paddingBottom: isShowKeyboard ? 32:32}}>
+<View style={{...styles.formRegistration}}>
 <View style={styles.addPhoto}>
 <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
@@ -45,49 +52,53 @@ resizeMode="contain"
 </TouchableOpacity>
 </View>
 <Text style={styles.title}>Реєстрація</Text>
-  <View style={{...styles.inputContainer, paddingBottom: isShowKeyboard ? 0:52}}>
+  <View style={{...styles.inputContainer}}>
   <TextInput 
     style={[styles.input,
     isFocusInput==='login' && styles.inputActive,]} 
     onFocus={()=>{
-      setIsShowKeyboard(true)
+      // setIsShowKeyboard(true)
       focusInput('login') }}
     placeholder="Логін"
     value={login}
     onChangeText={setLogin}
+    onSubmitEditing={handleKeyboardHide}
     />
   </View>
   <View style={styles.inputContainer}>
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
   onFocus={()=>{
-    setIsShowKeyboard(true)
+    // setIsShowKeyboard(true)
     focusInput('email')}}
   placeholder="Адреса електронної пошти"
   value={email}
   onChangeText={setEmail}
+  onSubmitEditing={handleKeyboardHide}
   />
   </View>
-  <View style={styles.inputWrapper}>
+  <View style={{...styles.inputWrapper,  marginBottom: isShowKeyboard ? 99 : 43,}}>
 
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
   onFocus={()=>{
-    setIsShowKeyboard(true)
+    // setIsShowKeyboard(true)
     focusInput('password')
   }}
   secureTextEntry={!isShowPassword}
   placeholder="Пароль"
   value={password}
   onChangeText={setPassword}
+  onSubmitEditing={handleKeyboardHide}
   />
-  </View>
-  <TouchableOpacity 
-  style={styles.showPasswordBtn} 
+   <TouchableOpacity 
+  // style={styles.showPasswordBtn} 
   activeOpacity={0.8}
   onPress={()=>{toggleShowPassword()}}>
     <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
   </TouchableOpacity>
+  </View>
+ 
 
 
 </View>
@@ -260,10 +271,13 @@ flex: 1,
     fontWeight: 400,
     lineHeight: 19,
     fontSize: 16,
+    position:'absolute',
+    right:16,
+    bottom: 16,
   },
-  showPasswordBtn:{
-    position: 'absolute',
-    top: 309,
-    left: 288,
-      },
+  // showPasswordBtn:{
+  //   position: 'absolute',
+  //   top: 309,
+  //   left: 288,
+  //     },
 })

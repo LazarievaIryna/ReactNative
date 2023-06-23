@@ -9,8 +9,16 @@ export const LoginScreen=()=>{
   const [isShowKeyboard, setIsShowKeyboard]=useState(false);
 
 const focusInput = (input)=>{
-  setIsFocusInput(input)
+  setIsFocusInput(input),
+  setIsShowKeyboard(true)
 }
+const handleKeyboardHide = () => {
+  
+  setIsShowKeyboard(false);
+  
+  Keyboard.dismiss();
+};
+
 const onLogin = () => {
   console.log(`Registration data: ${email}+ ${password}`);
 };
@@ -19,7 +27,7 @@ const toggleShowPassword = () => {
 };
 
   return(
-<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+<TouchableWithoutFeedback onPress={handleKeyboardHide}>
 
 <View style={styles.container}>
 
@@ -41,7 +49,7 @@ behavior={Platform.OS == "android" ? "padding" : "height"}
 // keyboardVerticalOffset={Platform.OS === "ios" ? -300 : 0}
 >
 
-<View style={{...styles.formRegistration, paddingBottom: isShowKeyboard? 134:144}}>
+<View style={{...styles.formRegistration}}>
 <View style={styles.addPhoto}>
 <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
@@ -56,34 +64,38 @@ resizeMode="contain"
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
   onFocus={()=>{
-    setIsShowKeyboard(true)
+    // setIsShowKeyboard(true)
     focusInput('email')
   }}
   placeholder="Адреса електронної пошти"
   value={email}
   onChangeText={setEmail}
+  onSubmitEditing={handleKeyboardHide}
   />
   </View>
-  <View style={styles.inputWrapper}>
+  <View style={{...styles.inputWrapper,  marginBottom: isShowKeyboard ? 99 : 43,}}>
 
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
   onFocus={()=>{
-    setIsShowKeyboard(true)
+    // setIsShowKeyboard(true)
     focusInput('password')
+    
   }}
   secureTextEntry={!isShowPassword}
   placeholder="Пароль"
   value={password}
   onChangeText={setPassword}
+  onSubmitEditing={handleKeyboardHide}
   />
-  </View>
   <TouchableOpacity 
-  style={styles.showPasswordBtn} 
+  // style={styles.showPasswordBtn} 
   activeOpacity={0.8}
   onPress={()=>{toggleShowPassword()}}>
     <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
   </TouchableOpacity>
+  </View>
+  
 
   <TouchableOpacity style={styles.btn} activeOpacity={0.8} onPress={onLogin}>
   <Text style={styles.btnTitle}>Увійти</Text>
@@ -118,7 +130,12 @@ flex: 1,
     
   },
   wrapper:{
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    backgroundColor: "#FFFFFF",
+    paddingBottom:78,
+    paddingHorizontal: 16,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   addPhoto: {
     position: "absolute",
@@ -146,10 +163,10 @@ flex: 1,
       
   formRegistration:{
     
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     paddingTop: 92,
-    paddingBottom: 66,
-    backgroundColor: "#FFFFFF",
+    // paddingBottom: 66,
+    // backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
 
@@ -193,7 +210,7 @@ flex: 1,
   },
   inputWrapper:{
     position: 'relative',
-    marginBottom:43,
+    // marginBottom:43,
     
   },
   title: {
@@ -254,12 +271,15 @@ flex: 1,
     fontWeight: 400,
     lineHeight: 19,
     fontSize: 16,
+    position:'absolute',
+    right:16,
+    bottom: 16,
   },
-  showPasswordBtn:{
-    position: 'absolute',
-    top: 243,
-    left: 288,
-      },
+  // showPasswordBtn:{
+  //   position: 'absolute',
+  //   top: 243,
+  //   left: 288,
+  //     },
 
   textUnderline:{
   textDecorationLine:'underline'
