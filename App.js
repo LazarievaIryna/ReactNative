@@ -5,15 +5,16 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { StyleSheet,  View, } from 'react-native';
-import  RegistrationScreen  from './Screens/RegistrationScreen';
+import  RegistrationScreen  from './Screens/AuthScreens/RegistrationScreen';
 import * as SplashScreen from 'expo-splash-screen';
-import  LoginScreen from './Screens/LoginScreen';
-import CommentsScreen from './Screens/CommentsScreen'
-import CreatePostsScreen from './Screens/CreatePostsScreen'
-import Home from './Screens/Home'
-import MapScreen from './Screens/MapScreen'
-import PostsScreen from './Screens/PostsScreen'
-import ProfileScreen from './Screens/ProfileScreen'
+import  LoginScreen from './Screens/AuthScreens/LoginScreen';
+import CommentsScreen from './Screens/OtherScreens/CommentsScreen'
+import CreatePostsScreen from './Screens/MainScreen/CreatePostsScreen'
+import Home from './/Screens/MainScreen/Home'
+import MapScreen from './Screens/OtherScreens/MapScreen'
+// import PostsScreen from './Screens/PostsScreen'
+// import ProfileScreen from './Screens/ProfileScreen'
+// import Main from './Components/Main';
 
 
 
@@ -34,30 +35,46 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  const MainStack = createStackNavigator();
+
+  const AuthStack = createStackNavigator();
   
 
   return (
     
-    <NavigationContainer> 
-    <View style={styles.container} onLayout={onLayoutRootView}>
-    <MainStack.Navigator initialRouteName="Registration">
-
-
    
-      {/* <RegistrationScreen/> */}
-      {/* <LoginScreen/> */}
-      <MainStack.Screen options={{headerShown: false}} name="Registration" component={RegistrationScreen} />
-        <MainStack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-        <MainStack.Screen options={{headerShown: false}} name="Home" component={Home} />
-      
+    <View style={styles.container} onLayout={onLayoutRootView}>
+    {/* <Main/> */}
+    <NavigationContainer>
+        
+        <AuthStack.Navigator initialRouteName="Login">
+          <AuthStack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <AuthStack.Screen
+            name="Registration"
+            component={RegistrationScreen}
+            options={{ headerShown: false }}
+          />
+          <AuthStack.Screen name="Create post" component={CreatePostsScreen} />
+          <AuthStack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
 
-      
-     </MainStack.Navigator>
+          <AuthStack.Screen
+            name="Coments"
+            component={CommentsScreen}
+            options={{}}
+          />
+          <AuthStack.Screen name="Map" component={MapScreen} options={{}} />
+        </AuthStack.Navigator>
+      </NavigationContainer>
      <StatusBar style="auto" />
     </View>
-     </NavigationContainer>
-    
+  
   );
 }
 

@@ -1,40 +1,44 @@
 import { View, StyleSheet,ImageBackground, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image, TouchableWithoutFeedback,Keyboard, Platform } from "react-native"
 import { useState } from "react"
 
+
 const initialState={
+  login: '',
   email: '',
   password:'',
 
 }
-
- const LoginScreen=({ navigation })=>{
+ const RegistrationScreen=({ navigation })=>{
   const [isFocusInput, setIsFocusInput]=useState('')
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard]=useState(false);
   const [formState, setFormState]=useState(initialState)
 
-  const {email, password}=formState;
+  const {login, email, password}=formState;
+ 
 
 const focusInput = (input)=>{
   setIsFocusInput(input),
   setIsShowKeyboard(true)
+  
 }
+
+const toggleShowPassword = () => {
+  setIsShowPassword(!isShowPassword);
+};
 const handleKeyboardHide = () => {
   setIsShowKeyboard(false);
   Keyboard.dismiss();
+  
+  
 };
 const handleSubmit=()=>{
   setIsShowKeyboard(false);
   Keyboard.dismiss();
   console.log(formState)
-  navigation.navigate("Home")
   setFormState(initialState)
 }
 
-
-const toggleShowPassword = () => {
-  setIsShowPassword(!isShowPassword);
-};
 
   return(
 <TouchableWithoutFeedback onPress={handleKeyboardHide}>
@@ -42,11 +46,11 @@ const toggleShowPassword = () => {
 <View style={styles.container}>
 
 <ImageBackground
-source={require("../assets/image_bg.jpg")} 
+source={require("../../assets/image_bg.jpg")} 
 style={styles.image}>
 
   <View style={styles.wrapper}>
-  
+ 
 <KeyboardAvoidingView
 behavior={Platform.OS == "android" ? "padding" : "height"}
 
@@ -54,34 +58,44 @@ behavior={Platform.OS == "android" ? "padding" : "height"}
 
 <View style={{...styles.formRegistration}}>
 <View style={styles.addPhoto}>
-<TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
+
+  <TouchableOpacity style={styles.btnAddPhoto} activeOpacity={0.8}>
 <Image
-source={require("../assets/add.png")}
+source={require("../../assets/add.png")}
 resizeMode="contain"
 />
 </TouchableOpacity>
 </View>
-<Text style={styles.title}>Увійти</Text>
-  
+  <Text style={styles.title}>Реєстрація</Text>
+  <View style={{...styles.inputContainer}}>
+    <TextInput 
+    style={[styles.input,
+    isFocusInput==='login' && styles.inputActive,]} 
+    onFocus={()=>{
+      focusInput('login') }}
+    placeholder="Логін"
+    value={login}
+    onChangeText={(value)=>{setFormState((prevState)=>({...prevState, login: value}))}}
+    onSubmitEditing={handleKeyboardHide}
+    />
+  </View>
+
   <View style={styles.inputContainer}>
   <TextInput style={[styles.input,
   isFocusInput==='email' && styles.inputActive,]} 
   onFocus={()=>{
-
     focusInput('email')}}
   placeholder="Адреса електронної пошти"
   value={email}
   onChangeText={(value)=>{setFormState((prevState)=>({...prevState, email: value}))}}
   onSubmitEditing={handleKeyboardHide}
   />
-  
   </View>
   <View style={{...styles.inputWrapper,  marginBottom: isShowKeyboard ? 99 : 43,}}>
 
   <TextInput style={[styles.input,
   isFocusInput==='password' && styles.inputActive,]} 
   onFocus={()=>{
-
     focusInput('password')
   }}
   secureTextEntry={!isShowPassword}
@@ -90,36 +104,35 @@ resizeMode="contain"
   onChangeText={(value)=>{setFormState((prevState)=>({...prevState, password: value}))}}
   onSubmitEditing={handleKeyboardHide}
   />
-
-
-  <TouchableOpacity 
- 
+   <TouchableOpacity 
   activeOpacity={0.8}
   onPress={()=>{toggleShowPassword()}}>
     <Text style={styles.titleShowPasswordBtn}>{!isShowPassword? "Показати" : "Сховати"}</Text>
   </TouchableOpacity>
   </View>
-  
+ 
 
-  <TouchableOpacity 
-  style={styles.btn} 
-  activeOpacity={0.8} 
-  onPress={handleSubmit}>
-  <Text style={styles.btnTitle}>Увійти</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-    activeOpacity={0.8} 
-    onPress={() => navigation.navigate("Registration")}>
-    <Text style={styles.textLogin}>Немає акаунту?&nbsp;
-<Text style={styles.textUnderline}>Зареєструватися</Text>
-</Text>
-</TouchableOpacity>
 
 </View>
-
-
-
 </KeyboardAvoidingView>
+<TouchableOpacity 
+style={styles.btn} 
+  activeOpacity={0.8} 
+  onPress={()=>{
+    handleSubmit()
+    navigation.navigate("Home")
+  }}>
+<Text style={styles.btnTitle}>Зареєстуватися</Text>
+
+  </TouchableOpacity>
+
+  <TouchableOpacity
+  activeOpacity={0.8}
+  onPress={() => navigation.navigate("Login")} >
+    <Text  style={styles.textLogin}>Вже є акаунт? Увійти</Text>
+    </TouchableOpacity>
+
+
 
   </View>
 
@@ -174,9 +187,9 @@ flex: 1,
       
   formRegistration:{
     
-   
+  
     paddingTop: 92,
- 
+    
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
 
@@ -189,7 +202,7 @@ flex: 1,
     borderWidth: 1,
     borderColor: '#E8E8E8',
     height: 50,
-
+    
     borderStyle: 'solid',
    
     borderRadius: 8,
@@ -198,7 +211,8 @@ flex: 1,
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
     lineHeight: 19,
-
+   
+    
     
 },
   inputActive: {
@@ -209,16 +223,17 @@ flex: 1,
     backgroundColor: "#FFFFFF",
     padding: 16,
     maxHeight: 50,
-
+    
     color: "#212121",
     fontSize: 16,
     fontFamily: "Roboto-Regular",
-
+    
     lineHeight: 19,
   },
   inputWrapper:{
     position: 'relative',
-
+  
+    
   },
   title: {
     
@@ -241,6 +256,7 @@ flex: 1,
     paddingTop:16,
     paddingBottom: 16,
     marginBottom: 16,
+ 
 
   },
   btnTitle:{
@@ -283,9 +299,5 @@ flex: 1,
     bottom: 16,
   },
   
-
-  textUnderline:{
-  textDecorationLine:'underline'
-      }
 })
-export default LoginScreen;
+export default RegistrationScreen;
