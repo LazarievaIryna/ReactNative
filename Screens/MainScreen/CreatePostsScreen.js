@@ -1,24 +1,44 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback} from "react-native"
+import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator, Keyboard} from "react-native"
 import React, { useState, useEffect, useRef } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 // import { TouchableOpacity } from "react-native-gesture-handler";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons'; 
 import { KeyboardAvoidingView } from "react-native";
 
 
  const CreatePostsScreen=()=>{
 const [camera, setCamera]=useState(null)
 const [photo, setPhoto]=useState('')
-const [loadCamera, setLoadCamera] = useState(false);
+// const [loadCamera, setLoadCamera] = useState(false);
 const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+const [hasPermission, setHasPermission] = useState(null);
+const [type, setType] = useState(Camera.Constants.Type.back);
 
+useEffect(() => {
+  (async () => {
+    const { status } = await Camera.requestCameraPermissionsAsync();
+    setHasPermission(status === "granted");
+  })();
+}, []);
+
+if (hasPermission === null) {
+  return <View />;
+}
+if (hasPermission === false) {
+  return <Text>No access to camera</Text>;
+}
 
 const takePhoto=async()=>{
+  let { status } = await Camera.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission to access location was denied");
+      return;
+    }
 const photo = await camera.takePictureAsync()
-setLoadCamera(true);
+// setLoadCamera(true);
 setPhoto(photo.uri)
-setLoadCamera(false);
+// setLoadCamera(false);
 
 }
 
@@ -27,38 +47,56 @@ const keyboardHide = () => {
     setIsShowKeyboard(false);
   };
 
+  
+
 
     return(
-        <TouchableWithoutFeedback onPress={keyboardHide}>
-            <View
-        style={{ ...styles.container, marginTop: isShowKeyboard ? -60 : 0 }}
-      >
-        <View style={styles.cameraWrapper}>
-          {photo ? (
-            <View style={styles.containerPhoto}>
-              <Image style={styles.photo} source={{ uri: photo }} />
-              <View style={styles.icon}>
-                <FontAwesome
-                  name="camera"
-                  size={24}
-                  color={photo ? "#FFFFFF" : "#BDBDBD"}
-                />
-              </View>
-            </View>
-          ) : (
-            <Camera style={styles.camera} ref={setCamera}>
-              {loadCamera ? (
-                <ActivityIndicator size="large" color="#FF6C00" />
-              ) : (
-                <TouchableOpacity onPress={takePhoto} style={styles.btnCamera}>
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={styles.container}>
+        <View style={{ borderRadius: 8, overflow: "hidden" }}>
+          <Camera style={styles.camera} type={type} ref={setCamera}>
+            <View style={styles.photoWrapper}>
+              {photo && (
+                <View style={styles.takenPhotoContainer}>
+                  <Image
+                    source={{ uri: photo }}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  />
+                </View>
+              )}
+              {!photo && (
+                <TouchableOpacity
+                  style={styles.takePhotoBtn}
+                  onPress={() => {
+                    takePhoto(camera);
+                  }}
+                >
                   <FontAwesome name="camera" size={24} color="#BDBDBD" />
                 </TouchableOpacity>
               )}
-            </Camera>
-          )}
+              {!photo && (
+                <TouchableOpacity
+                  style={styles.flipBtn}
+                  onPress={() => {
+                    setType(
+                      type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back
+                    );
+                  }}
+                >
+                  <FontAwesome name="camera" size={24} color="#BDBDBD" />
+                </TouchableOpacity>
+              )}
+            </View>
+          </Camera>
         </View>
-      </View>
-        </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback >
+
        
     
       
@@ -66,52 +104,47 @@ const keyboardHide = () => {
 }
 const styles= StyleSheet.create({
     container: {
+      paddingHorizontal: 16,
+      paddingVertical: 32,
+      backgroundColor: "white",
+      height: "100%",
+      },
+      photoWrapper: {
         flex: 1,
-        paddingTop: 32,
-        paddingBottom: 32,
-        paddingLeft: 16,
-        paddingRight: 16,
-        backgroundColor: "#FFFFFF",
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
       },
-      cameraWrapper: {
-        width: "100%",
-        borderRadius: 8,
-        marginBottom: 8,
-        overflow: "hidden",
-      },
-      containerPhoto: {
-        width: "100%",
-        height: 240,
-        alignItems: "center",
-        justifyContent: "center",
-      },
-      photo: {
-        width: "100%",
-        height: 240,
-        borderRadius: 8,
-      },
-      icon: {
+      takenPhotoContainer: {
         position: "absolute",
-        width: 60,
-        height: 60,
-        borderRadius: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "rgba(255, 255, 255, 0.3);",
-      },
-      camera: {
+        resizeMode: "cover",
+        top: 0,
+        left: 0,
         height: 240,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 8,
+        width: "100%",
       },
-      btnCamera: {
-        backgroundColor: "rgba(255, 255, 255, 0.3);",
-        width: 60,
+     
+   
+      camera: {
+        position: "relative",
+    height: 240,
+    borderRadius: 8,
+    backgroundColor: "#F6F6F6",
+      },
+      takePhotoBtn: {
         height: 60,
-        alignItems: "center",
+        width: 60,
+        display: "flex",
         justifyContent: "center",
+        alignItems: "center",
         borderRadius: 50,
+        backgroundColor: "rgba(255, 255, 255, 0.3)",
       },
+      flipBtn: {
+        position: "absolute",
+        bottom: 20,
+        right: 20,
+      },
+      
 })
 export default CreatePostsScreen;
