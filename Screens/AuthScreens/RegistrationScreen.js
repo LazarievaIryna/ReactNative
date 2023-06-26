@@ -263,7 +263,7 @@ flex: 1,
     color: '#FFFFFF',
     fontFamily: 'Roboto-Regular',
     fontWeight: 400,
-    lineHeight: 18.75,
+    lineHeight: 19,
    
 
   },
@@ -271,7 +271,7 @@ flex: 1,
     color: '#1B4371',
     fontFamily: 'Roboto-Regular',
     fontWeight: 400,
-    lineHeight: 18.75,
+    lineHeight: 19,
     textAlign: 'center',
   },
   btnAddPhoto:{

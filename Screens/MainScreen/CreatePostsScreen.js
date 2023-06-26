@@ -5,6 +5,7 @@ import * as MediaLibrary from "expo-media-library";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons'; 
 import { KeyboardAvoidingView } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 
 
  const CreatePostsScreen=()=>{
@@ -94,6 +95,59 @@ const keyboardHide = () => {
             </View>
           </Camera>
         </View>
+        {photo ? (
+          <TouchableOpacity
+            style={styles.editPhotoBtn}
+            onPress={() => {
+              setPhoto(null), setPhoto(null);
+            }}
+          >
+            <Text style={styles.editPhotoBtnText}>Редагувати фото</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.editPhotoBtn}
+            onPress={() => {
+             
+            }}
+          >
+            <Text style={styles.editPhotoBtnText}>Завантажте фото</Text>
+          </TouchableOpacity>
+        )}
+    <View style={styles.formContainer}>
+        <View style={styles.form}>
+            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}
+            >
+                <TextInput
+                style={{...styles.input, marginBottom: 16}}
+                placeholder="Назва...">
+
+                </TextInput>
+
+                <TextInput
+                style={styles.input}
+                placeholder="Місцевість...">
+
+                </TextInput>
+              <TouchableOpacity 
+style={styles.btn} 
+  activeOpacity={0.8} 
+  // onPress={()=>{
+  //   handleSubmit()
+  //   navigation.navigate("Home")
+  // }}>
+  >
+<Text style={styles.btnTitle}>Опубліковати</Text>
+
+  </TouchableOpacity>
+
+
+            </KeyboardAvoidingView>
+    </View>
+        </View>
+
+
+
         </View>
       </TouchableWithoutFeedback >
 
@@ -144,6 +198,54 @@ const styles= StyleSheet.create({
         position: "absolute",
         bottom: 20,
         right: 20,
+      },
+      editPhotoBtn: {
+        alignSelf: "flex-start",
+        marginTop: 8,
+      },
+    
+      editPhotoBtnText: {
+        fontFamily: "Roboto-Regular",
+        fontSize: 16,
+        lineHeight: 19,
+        color: "#BDBDBD",
+      },
+      formContainer:{
+
+      },
+      form:{
+        marginTop: 32,
+      },
+      input:{
+        height: 50,
+        borderBottomWidth: 1,
+        borderBottomColor: '#E8E8E8',
+        color: '#212121',
+        fontSize: 16,
+        fontFamily: 'Roboto-Regular',
+        lineHeight: 19,
+      },
+      btn:{
+        height: 51,
+        backgroundColor:'#FF6C00',
+    
+        borderRadius: 100,
+        alignItems: 'center',
+        
+        paddingTop:16,
+        paddingBottom: 16,
+        marginBottom: 16,
+        marginTop: 32,
+     
+    
+      },
+      btnTitle:{
+        color: '#FFFFFF',
+        fontFamily: 'Roboto-Regular',
+        fontWeight: 400,
+        lineHeight: 19,
+       
+    
       },
       
 })
