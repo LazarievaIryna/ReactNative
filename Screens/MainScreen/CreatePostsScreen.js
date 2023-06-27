@@ -3,7 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 // import { TouchableOpacity } from "react-native-gesture-handler";
-import { FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons'; 
+import { FontAwesome, MaterialCommunityIcons, Feather} from '@expo/vector-icons'; 
+import * as Location from 'expo-location';
 import { KeyboardAvoidingView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
@@ -15,6 +16,7 @@ const [photo, setPhoto]=useState('')
 const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 const [hasPermission, setHasPermission] = useState(null);
 const [type, setType] = useState(Camera.Constants.Type.back);
+const [location, setLocation] = useState(null);
 
 useEffect(() => {
   (async () => {
@@ -23,6 +25,19 @@ useEffect(() => {
   })();
 }, []);
 
+
+useEffect(() => {
+  (async () => {
+    
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+      return;
+    }
+
+    
+  })();
+}, []);
 if (hasPermission === null) {
   return <View />;
 }
@@ -31,17 +46,21 @@ if (hasPermission === false) {
 }
 
 const takePhoto=async()=>{
-  let { status } = await Camera.requestCameraPermissionsAsync();
-    if (status !== "granted") {
-      console.log("Permission to access location was denied");
-      return;
-    }
+  // let { status } = await Camera.requestCameraPermissionsAsync();
+  //   if (status !== "granted") {
+  //     console.log("Permission to access location was denied");
+  //     return;
+  //   }
 const photo = await camera.takePictureAsync()
 // setLoadCamera(true);
 setPhoto(photo.uri)
 // setLoadCamera(false);
-
+let location = await Location.getCurrentPositionAsync({});
+    // setLocation(location);
+    console.log(location)
 }
+
+
 
 const keyboardHide = () => {
     Keyboard.dismiss();
@@ -124,11 +143,17 @@ const keyboardHide = () => {
 
                 </TextInput>
 
+              <View>
                 <TextInput
-                style={styles.input}
+                style={{...styles.input, paddingLeft: 28}}
                 placeholder="Місцевість...">
 
                 </TextInput>
+                <View style={styles.inputIcon}>
+                <Feather name="map-pin" size={24} color="#BDBDBD" />
+                </View>
+                </View>
+                
               <TouchableOpacity 
 style={styles.btn} 
   activeOpacity={0.8} 
@@ -224,6 +249,7 @@ const styles= StyleSheet.create({
         fontSize: 16,
         fontFamily: 'Roboto-Regular',
         lineHeight: 19,
+        paddingBottom: 15,
       },
       btn:{
         height: 51,
@@ -247,6 +273,12 @@ const styles= StyleSheet.create({
        
     
       },
+      inputIcon:{
+        position:'absolute',
+        // marginRight: 4,
+        // height: 27,
+        top: 4,
+      }
       
 })
 export default CreatePostsScreen;
