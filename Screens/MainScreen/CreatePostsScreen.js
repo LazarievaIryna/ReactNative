@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator, Keyboard} from "react-native"
 import React, { useState, useEffect, useRef } from "react";
 import { Camera } from "expo-camera";
+// import { useNavigation } from "@react-navigation/native";
 import * as MediaLibrary from "expo-media-library";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome, MaterialCommunityIcons, Feather} from '@expo/vector-icons'; 
@@ -9,7 +10,9 @@ import { KeyboardAvoidingView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
 
- const CreatePostsScreen=()=>{
+
+
+ const CreatePostsScreen=({navigation})=>{
 const [camera, setCamera]=useState(null)
 const [photo, setPhoto]=useState('')
 // const [loadCamera, setLoadCamera] = useState(false);
@@ -17,6 +20,8 @@ const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 const [hasPermission, setHasPermission] = useState(null);
 const [type, setType] = useState(Camera.Constants.Type.back);
 const [location, setLocation] = useState(null);
+
+// const navigation = useNavigation();
 
 useEffect(() => {
   (async () => {
@@ -45,22 +50,30 @@ if (hasPermission === false) {
   return <Text>No access to camera</Text>;
 }
 
-const takePhoto=async()=>{
-  // let { status } = await Camera.requestCameraPermissionsAsync();
-  //   if (status !== "granted") {
-  //     console.log("Permission to access location was denied");
-  //     return;
-  //   }
-const photo = await camera.takePictureAsync()
-// setLoadCamera(true);
-setPhoto(photo.uri)
-// setLoadCamera(false);
-let location = await Location.getCurrentPositionAsync({});
-    // setLocation(location);
+
+const takePhoto=async(camera)=>{
+try{
+  if(camera){
+    const photo = await camera.takePictureAsync()
+    setPhoto(photo.uri)
+    let location = await Location.getCurrentPositionAsync({});
+const coords = {
+  latitude: location.coords.latitude,
+  longitude: location.coords.longitude,
+};
+    setLocation(coords);
     console.log(location)
+  }
+}
+catch(error){
+  console.log(error)
 }
 
+}
 
+const handleSubmit=()=>{
+  navigation.navigate("Posts", {photo})
+}
 
 const keyboardHide = () => {
     Keyboard.dismiss();
@@ -157,11 +170,11 @@ const keyboardHide = () => {
               <TouchableOpacity 
 style={styles.btn} 
   activeOpacity={0.8} 
-  // onPress={()=>{
-  //   handleSubmit()
-  //   navigation.navigate("Home")
-  // }}>
-  >
+  onPress={()=>{
+    handleSubmit()
+  
+  }}>
+  
 <Text style={styles.btnTitle}>Опубліковати</Text>
 
   </TouchableOpacity>
