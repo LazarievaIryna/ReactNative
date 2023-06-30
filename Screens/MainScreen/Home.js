@@ -3,6 +3,7 @@ import { Feather } from '@expo/vector-icons';
 // import { Feather } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PostsScreen from "./PostsScreen";
+import DefaultScreenPosts from "../OtherScreens/DefaultScreenPosts";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 
@@ -30,6 +31,7 @@ const Tab = createBottomTabNavigator();
       <Tab.Screen 
       options={
         {title: 'Публікації',
+        tabBarShowLabel: false,
         tabBarIcon: ({focused, color, size})=>
           <Feather name="grid" size={size} color={color} />,
           headerRight: ()=>
@@ -46,7 +48,7 @@ const Tab = createBottomTabNavigator();
 
       } 
       name="Posts" 
-      component={PostsScreen} />
+      component={DefaultScreenPosts} />
 
     <Tab.Screen 
     options={{
@@ -67,6 +69,7 @@ const Tab = createBottomTabNavigator();
       }} 
     name="Create"
      component={CreatePostsScreen} />
+
     <Tab.Screen 
     options={{
       tabBarIcon: ({focused, color, size})=>

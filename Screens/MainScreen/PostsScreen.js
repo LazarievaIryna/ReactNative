@@ -1,17 +1,15 @@
-import { View, Text, StyleSheet} from "react-native"
- const PostsScreen=()=>{
-    return(
-        <View style={styles.container}>
-            <Text>PostsScreen</Text>
-        </View>
-    )
-}
-const styles= StyleSheet.create({
-    container: {
-        flex:1,
-        backgroundColor: '#fff',
-        alignItems:'center',
-        paddingTop: 100,
-    }
-})
-export default PostsScreen;
+// import React from "react";
+
+// import { createStackNavigator } from "@react-navigation/stack";
+// import DefaultScreenPosts from "../OtherScreens/DefaultScreenPosts";
+
+// const NestedScreen = createStackNavigator();
+
+// const PostsScreen=()=>{
+// return (<NestedScreen.Navigator>
+//   <NestedScreen.Screen name="DefaultScreen" component={DefaultScreenPosts}/>
+//   {/* <NestedScreen.Screen name="" component={}/>
+//   <NestedScreen.Screen name="" component={}/> */}
+// </NestedScreen.Navigator>)
+// }
+// export default PostsScreen;

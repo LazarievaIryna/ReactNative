@@ -9,7 +9,7 @@ import  RegistrationScreen  from './Screens/AuthScreens/RegistrationScreen';
 import * as SplashScreen from 'expo-splash-screen';
 import  LoginScreen from './Screens/AuthScreens/LoginScreen';
 import CommentsScreen from './Screens/OtherScreens/CommentsScreen'
-import CreatePostsScreen from './Screens/MainScreen/CreatePostsScreen'
+import CreatePostsScreen from './Screens/MainScreen/CreatePostsScreen';
 import Home from './/Screens/MainScreen/Home'
 import MapScreen from './Screens/OtherScreens/MapScreen'
 // import PostsScreen from './Screens/PostsScreen'
@@ -25,6 +25,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     'Roboto-Medium': require("./assets/fonts/Roboto-Medium.ttf"),
     'Roboto-Regular': require("./assets/fonts/Roboto-Regular.ttf"),
+    'Roboto-Bold': require("./assets/fonts/Roboto-Bold.ttf"),
   });
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -57,7 +58,7 @@ export default function App() {
             component={RegistrationScreen}
             options={{ headerShown: false }}
           />
-          <AuthStack.Screen name="Create post" component={CreatePostsScreen} />
+          <AuthStack.Screen name="Create post" component={CreatePostsScreen} options={{ headerShown: false }} />
           <AuthStack.Screen
             name="Home"
             component={Home}

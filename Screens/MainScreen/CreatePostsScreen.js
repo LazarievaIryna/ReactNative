@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator, Keyboard} from "react-native"
-import React, { useState, useEffect, useRef } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from "react-native"
+import React, { useState, useEffect } from "react";
 import { Camera } from "expo-camera";
 // import { useNavigation } from "@react-navigation/native";
-import * as MediaLibrary from "expo-media-library";
+// import * as MediaLibrary from "expo-media-library";
 // import { TouchableOpacity } from "react-native-gesture-handler";
-import { FontAwesome, MaterialCommunityIcons, Feather} from '@expo/vector-icons'; 
+import { FontAwesome, Feather} from '@expo/vector-icons'; 
 import * as Location from 'expo-location';
 import { KeyboardAvoidingView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
