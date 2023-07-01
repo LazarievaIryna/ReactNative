@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+// import { useNavigation } from "@react-navigation/native";
+import { Feather, SimpleLineIcons } from '@expo/vector-icons';
 import {
     StyleSheet,
     View,
@@ -17,6 +19,8 @@ import {
             setPosts((prevState)=>[...prevState, route.params]);
         }
     },[route.params]);
+    console.log(route.params)
+    const navigation = useNavigation();
 return(
     <View style={styles.container}>
         <View style={styles.userWrapper}>
@@ -32,13 +36,59 @@ return(
             </View>
             <View style={styles.postWrapper}>
             <FlatList data={posts}
+            
             keyExtractor={(item, indx)=> indx.toString()}
             renderItem={({item})=> {
-                return(<View style={styles.post}>
-                    <View style={styles.postPhoto}>
-                    <Image source={{uri: item.photo}} style={styles.photo}/>
-                    </View>
-                </View>)
+                return(<>
+                <View style={styles.post}>
+                  <View style={styles.postPhoto}>
+                    <Image source={{ uri: item.photo }} style={styles.photo} />
+                  </View>
+                  <Text style={styles.postTitle}>{item.place}</Text>
+
+                  <View style={styles.postDescription}>
+                  <TouchableOpacity
+                  activeOpacity={0.8} 
+                  style={{marginRight: 49, flexDirection:"row", alignItems:'center'}}
+                  onPress={()=>navigation.navigate('Coments')}
+                  >
+                    <View>
+                  <Feather name="message-circle" size={24} color="#BDBDBD" />
+                  </View>
+                  <Text style={styles.postToolLabel}>
+                        {item.comments ? item.comments : 0}
+                      </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                  activeOpacity={0.8} 
+                style={{
+                  
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+                onPress={() => navigation.navigate("MapScreen", 
+                {
+                  locationLatitude: item.currentLocation.latitude,
+                  locationLongitude: item.currentLocation.longitude,
+                  locationName: item.place
+                })}
+              >
+                <SimpleLineIcons
+                  name="location-pin"
+                  size={24}
+                  color={'#BDBDBD'}
+                />
+                <Text style={styles.location}>{item.location}</Text>
+              </TouchableOpacity>
+                  </View>
+                </View>
+                
+                
+                </>
+                
+                
+                )
             }
             }/>
             </View>
@@ -100,6 +150,31 @@ return(
         backgroundColor: "#7a7a7a",
         borderRadius: 8,
         overflow: "hidden",
+      },
+      postTitle:{
+        marginTop: 8,
+        marginBottom: 4,
+        fontFamily: 'Roboto-Regular',
+        fontSize: 16,
+        fontWeight: 500,
+        lineHeight: 19,
+        color: 'rgba(33, 33, 33, 1)',
+        
+      },
+      postToolLabel: {
+        fontFamily: "Roboto-Regular",
+        fontSize: 16,
+        lineHeight: 19,
+        color: "#BDBDBD",
+        marginLeft: 6,
+      },
+      postDescription:{
+        flexDirection: 'row',
+        // justifyContent: "center",
+      },
+      location:{
+        textDecorationLine:'underline',
+        marginLeft: 4,
       }
     })
   export default DefaultScreenPosts;

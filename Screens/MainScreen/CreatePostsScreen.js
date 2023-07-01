@@ -19,9 +19,12 @@ const [photo, setPhoto]=useState('')
 const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 const [hasPermission, setHasPermission] = useState(null);
 const [type, setType] = useState(Camera.Constants.Type.back);
-const [location, setLocation] = useState(null);
+const [currentLocation, setCurrentLocation] = useState(null);
+const [place, setPlace]=useState('');
+const [placeLocation, setPlaceLocation]=useState('')
 
 // const navigation = useNavigation();
+console.log(place)
 
 useEffect(() => {
   (async () => {
@@ -56,13 +59,13 @@ try{
   if(camera){
     const photo = await camera.takePictureAsync()
     setPhoto(photo.uri)
-    let location = await Location.getCurrentPositionAsync({});
+    let locationRef = await Location.getCurrentPositionAsync({});
 const coords = {
-  latitude: location.coords.latitude,
-  longitude: location.coords.longitude,
+  latitude: locationRef.coords.latitude,
+  longitude: locationRef.coords.longitude,
 };
-    setLocation(coords);
-    console.log(location)
+    setCurrentLocation(coords);
+    console.log(latitude)
   }
 }
 catch(error){
@@ -72,9 +75,14 @@ catch(error){
 }
 
 const handleSubmit=()=>{
-  navigation.navigate("Posts", {photo})
+  navigation.navigate("DefaultScreen", 
+  {photo,
+    place: place.trim(),
+    currentLocation,
+    location: placeLocation,
+  })
 }
-
+console.log(place)
 const keyboardHide = () => {
     Keyboard.dismiss();
     setIsShowKeyboard(false);
@@ -152,15 +160,20 @@ const keyboardHide = () => {
             >
                 <TextInput
                 style={{...styles.input, marginBottom: 16}}
-                placeholder="Назва...">
+                placeholder="Назва..."
+                value={place}
+                onChangeText={setPlace}>
 
                 </TextInput>
 
               <View>
                 <TextInput
                 style={{...styles.input, paddingLeft: 28}}
-                placeholder="Місцевість...">
-
+                placeholder="Місцевість..."
+                value={placeLocation}
+                onChangeText={setPlaceLocation}
+                >
+                 
                 </TextInput>
                 <View style={styles.inputIcon}>
                 <Feather name="map-pin" size={24} color="#BDBDBD" />

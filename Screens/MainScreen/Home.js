@@ -1,5 +1,5 @@
-import { View, TouchableOpacity} from "react-native";
-import { Feather } from '@expo/vector-icons'; 
+import { View, TouchableOpacity, StyleSheet} from "react-native";
+import { Feather, AntDesign } from '@expo/vector-icons'; 
 // import { Feather } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PostsScreen from "./PostsScreen";
@@ -30,29 +30,40 @@ const Tab = createBottomTabNavigator();
       }}>
       <Tab.Screen 
       options={
-        {title: 'Публікації',
-        tabBarShowLabel: false,
+        {
+          headerShown: false,
+        // tabBarShowLabel: false,
         tabBarIcon: ({focused, color, size})=>
-          <Feather name="grid" size={size} color={color} />,
-          headerRight: ()=>
+          <Feather name="grid" size={size} color={'rgba(33, 33, 33, 0.8)'} />,
 
-            (<TouchableOpacity
-            style={{position: "absolute", bottom: 10, right: 10}}
-            onPress={() => navigation.navigate("Login")}>
+          // headerRight: ()=>
+
+          //   (<TouchableOpacity
+          //   style={{position: "absolute", bottom: 10, right: 10}}
+          //   onPress={() => navigation.navigate("Login")}>
            
-            <Feather name="log-out" size={24} color="#BDBDBD" />
-            </TouchableOpacity>)
+          //   <Feather name="log-out" size={24} color="#BDBDBD" />
+          //   </TouchableOpacity>)
           
         
         }
 
       } 
       name="Posts" 
-      component={DefaultScreenPosts} />
+      component={PostsScreen} />
 
     <Tab.Screen 
     options={{
       title: 'Створити публікацію',
+      headerLeft: () => (
+        <View style={styles.arrow}>
+          <AntDesign
+            name="arrowleft"
+            size={24}
+            color="rgba(33, 33, 33, 0.8)"
+            onPress={() => navigation.navigate("DefaultScreen")}
+          />
+        </View>),
       // headerShown: false,
       tabBarIcon: ({focused, color, size})=>(
         <View style={{
@@ -62,8 +73,10 @@ const Tab = createBottomTabNavigator();
           borderRadius: 20,
           justifyContent: "center",
           alignItems: "center",
+
         }}>
-          <Feather name="plus" size={size} color='#fff' />
+          <Feather name="plus" size={size} color='#fff' 
+          onPress={() => navigation.navigate("Create")}/>
         </View>
       )
       }} 
@@ -79,4 +92,10 @@ const Tab = createBottomTabNavigator();
     </Tab.Navigator>
     )
 }
+const styles= StyleSheet.create({
+  arrow:{
+    marginLeft: 16,
+    top: 5,
+  }
+})
 export default Home;
