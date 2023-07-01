@@ -15,7 +15,6 @@ import { TextInput } from "react-native-gesture-handler";
  const CreatePostsScreen=({navigation})=>{
 const [camera, setCamera]=useState(null)
 const [photo, setPhoto]=useState('')
-// const [loadCamera, setLoadCamera] = useState(false);
 const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 const [hasPermission, setHasPermission] = useState(null);
 const [type, setType] = useState(Camera.Constants.Type.back);
@@ -23,8 +22,7 @@ const [currentLocation, setCurrentLocation] = useState(null);
 const [place, setPlace]=useState('');
 const [placeLocation, setPlaceLocation]=useState('')
 
-// const navigation = useNavigation();
-console.log(place)
+
 
 useEffect(() => {
   (async () => {
@@ -65,13 +63,18 @@ const coords = {
   longitude: locationRef.coords.longitude,
 };
     setCurrentLocation(coords);
-    console.log(latitude)
+    
   }
 }
 catch(error){
   console.log(error)
 }
 
+}
+const clearForm=()=>{
+  setPhoto('')
+  setPlace('')
+  setPlaceLocation('')
 }
 
 const handleSubmit=()=>{
@@ -81,6 +84,7 @@ const handleSubmit=()=>{
     currentLocation,
     location: placeLocation,
   })
+  clearForm()
 }
 console.log(place)
 const keyboardHide = () => {
@@ -93,7 +97,7 @@ const keyboardHide = () => {
 
     return(
       <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
+      <View style={{...styles.container, marginTop: isShowKeyboard ? -70 : 0}}>
         <View style={{ borderRadius: 8, overflow: "hidden" }}>
           <Camera style={styles.camera} type={type} ref={setCamera}>
             <View style={styles.photoWrapper}>
@@ -181,23 +185,35 @@ const keyboardHide = () => {
                 </View>
                 
               <TouchableOpacity 
-style={styles.btn} 
+              
+style={{...styles.btn,
+backgroundColor: !photo || !place || !placeLocation ? "#F6F6F6" : "#FF6C00"
+}} 
   activeOpacity={0.8} 
   onPress={()=>{
     handleSubmit()
   
   }}>
   
-<Text style={styles.btnTitle}>Опубліковати</Text>
+<Text style={{...styles.btnTitle,
+color: !photo || !place || !placeLocation ? "#BDBDBD" : "#FFFFFF"
+}}>Опубліковати</Text>
 
   </TouchableOpacity>
 
 
             </KeyboardAvoidingView>
     </View>
+    
         </View>
+        <View style={styles.btnWrapper}>
 
-
+<TouchableOpacity onPress={()=>clearForm()}>
+  <View style={styles.btnClear}>
+<Feather name="trash-2" size={24} color="#BDBDBD" />
+</View>
+</TouchableOpacity>
+</View>
 
         </View>
       </TouchableWithoutFeedback >
@@ -213,6 +229,7 @@ const styles= StyleSheet.create({
       paddingVertical: 32,
       backgroundColor: "white",
       height: "100%",
+      
       },
       photoWrapper: {
         flex: 1,
@@ -278,21 +295,19 @@ const styles= StyleSheet.create({
         paddingBottom: 15,
       },
       btn:{
-        height: 51,
-        backgroundColor:'#FF6C00',
-    
-        borderRadius: 100,
-        alignItems: 'center',
-        
-        paddingTop:16,
-        paddingBottom: 16,
-        marginBottom: 16,
-        marginTop: 32,
+       marginTop: 32,
+    marginBottom: 120,
+
+    paddingVertical: 16,
+
+    backgroundColor: '#f6f6f6',
+    borderRadius: 100,
+    alignItems: 'center'
      
     
       },
       btnTitle:{
-        color: '#FFFFFF',
+        color: '#BDBDBD',
         fontFamily: 'Roboto-Regular',
         fontWeight: 400,
         lineHeight: 19,
@@ -301,9 +316,20 @@ const styles= StyleSheet.create({
       },
       inputIcon:{
         position:'absolute',
-        // marginRight: 4,
-        // height: 27,
         top: 4,
+      },
+      btnClear:{
+        width: 70,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: "#F6F6F6",
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+      },
+      btnWrapper:{
+        alignItems: "center",
+        top: -34
       }
       
 })

@@ -44,7 +44,7 @@ export default function App() {
     
    
     <View style={styles.container} onLayout={onLayoutRootView}>
-    {/* <Main/> */}
+
     <NavigationContainer>
         
         <AuthStack.Navigator initialRouteName="Login">

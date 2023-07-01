@@ -20,8 +20,6 @@ return (<NestedScreen.Navigator>
     headerTitleAlign: "center",
     headerLeft: false,
     tabBarShowLabel: false,
-        // tabBarIcon: ({focused, color, size})=>
-        //   <Feather name="grid" size={size} color={color} />,
           headerRight: ()=>
 
             (<TouchableOpacity
@@ -34,7 +32,11 @@ return (<NestedScreen.Navigator>
   }}
   />
   <NestedScreen.Screen name="CommentsScreen" component={CommentsScreen}/>
-  <NestedScreen.Screen name="MapScreen" component={MapScreen}/>
+  <NestedScreen.Screen name="MapScreen" component={MapScreen}
+  options={{
+    // cardStyle: {display: 'none'}
+  }}
+  />
 </NestedScreen.Navigator>)
 }
 export default PostsScreen;

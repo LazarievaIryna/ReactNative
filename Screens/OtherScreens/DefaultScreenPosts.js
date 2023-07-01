@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigation } from "@react-navigation/native";
 import { Feather, SimpleLineIcons } from '@expo/vector-icons';
 import {
     StyleSheet,
     View,
     Text,
     Image,
-    SafeAreaView,
     FlatList,
     TouchableOpacity,
   } from "react-native";
-  import { useNavigation, useRoute } from "@react-navigation/native";
+  import { useNavigation } from "@react-navigation/native";
+
   const DefaultScreenPosts = ({route})=>{
     const [posts, setPosts]=useState([])
 
@@ -105,7 +104,7 @@ return(
         paddingVertical: 32,
         backgroundColor: "white",
         height: "100%",
-        // flexDirection: 'row',
+        
       },
       userWrapper:{
         flexDirection: 'row',
@@ -131,7 +130,6 @@ return(
         fontSize: 11,
       },
       photo:{
-        // height:240,
         width: "100%",
         height: "100%",
       },
@@ -170,7 +168,6 @@ return(
       },
       postDescription:{
         flexDirection: 'row',
-        // justifyContent: "center",
       },
       location:{
         textDecorationLine:'underline',

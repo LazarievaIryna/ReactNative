@@ -1,9 +1,7 @@
-import { View, TouchableOpacity, StyleSheet} from "react-native";
+import { View, StyleSheet} from "react-native";
 import { Feather, AntDesign } from '@expo/vector-icons'; 
-// import { Feather } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PostsScreen from "./PostsScreen";
-import DefaultScreenPosts from "../OtherScreens/DefaultScreenPosts";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 
@@ -24,7 +22,6 @@ const Tab = createBottomTabNavigator();
        },
        tabBarStyle: {
         height: 58,
-        // padding:0,
         
        }
       }}>
@@ -32,20 +29,15 @@ const Tab = createBottomTabNavigator();
       options={
         {
           headerShown: false,
-        // tabBarShowLabel: false,
-        tabBarIcon: ({focused, color, size})=>
-          <Feather name="grid" size={size} color={'rgba(33, 33, 33, 0.8)'} />,
-
-          // headerRight: ()=>
-
-          //   (<TouchableOpacity
-          //   style={{position: "absolute", bottom: 10, right: 10}}
-          //   onPress={() => navigation.navigate("Login")}>
-           
-          //   <Feather name="log-out" size={24} color="#BDBDBD" />
-          //   </TouchableOpacity>)
-          
         
+        tabBarIcon: ({focused})=>
+          (
+            <View 
+            style={{...styles.iconWrapper, backgroundColor: focused? "#FF6C00": "#FFFFFF",}}>
+              <Feather name="grid" size={24} color={focused? "#fff": 'rgba(33, 33, 33, 0.8)'} />
+            </View>
+          )
+
         }
 
       } 
@@ -64,18 +56,13 @@ const Tab = createBottomTabNavigator();
             onPress={() => navigation.navigate("DefaultScreen")}
           />
         </View>),
-      // headerShown: false,
-      tabBarIcon: ({focused, color, size})=>(
-        <View style={{
-          width: 70,
-          height: 40,
-          backgroundColor: "#FF6C00",
-          borderRadius: 20,
-          justifyContent: "center",
-          alignItems: "center",
+        tabBarShowLabel: false,
+        tabBarStyle: { display: "none" },
+      tabBarIcon: ({focused, size})=>(
+        <View style={{...styles.iconWrapper, backgroundColor: focused? "#FF6C00": "#FFFFFF",          
 
         }}>
-          <Feather name="plus" size={size} color='#fff' 
+          <Feather name="plus" size={size} color={focused? "#fff": 'rgba(33, 33, 33, 0.8)'} 
           onPress={() => navigation.navigate("Create")}/>
         </View>
       )
@@ -85,8 +72,14 @@ const Tab = createBottomTabNavigator();
 
     <Tab.Screen 
     options={{
-      tabBarIcon: ({focused, color, size})=>
-    <Feather name="user" size={size} color={color} />} }
+      tabBarIcon: ({focused, size})=>(
+        <View style={{...styles.iconWrapper, backgroundColor: focused? "#FF6C00": "#FFFFFF",          
+
+      }}>
+          <Feather name="user" size={size} color={focused? "#fff": 'rgba(33, 33, 33, 0.8)'} />
+        </View>
+      )
+    } }
     name="Profile" 
     component={ProfileScreen} />
     </Tab.Navigator>
@@ -96,6 +89,13 @@ const styles= StyleSheet.create({
   arrow:{
     marginLeft: 16,
     top: 5,
-  }
+  },
+  iconWrapper: {
+    width: 70,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 })
 export default Home;
