@@ -1,17 +1,23 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+// import { store } from './Redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 import { useCallback } from 'react';
-import { NavigationContainer } from "@react-navigation/native";
+// import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import { StyleSheet,  View, } from 'react-native';
+import { StyleSheet,  View, Text} from 'react-native';
 import  RegistrationScreen  from './Screens/AuthScreens/RegistrationScreen';
 import * as SplashScreen from 'expo-splash-screen';
+// import {Router} from './Router'
+import { store, persistor } from './Redux/store';
 import  LoginScreen from './Screens/AuthScreens/LoginScreen';
 import CommentsScreen from './Screens/OtherScreens/CommentsScreen'
 import CreatePostsScreen from './Screens/MainScreen/CreatePostsScreen';
 import Home from './/Screens/MainScreen/Home'
 import MapScreen from './Screens/OtherScreens/MapScreen'
+import Main from './Components/Main';
 // import PostsScreen from './Screens/PostsScreen'
 // import ProfileScreen from './Screens/ProfileScreen'
 // import Main from './Components/Main';
@@ -37,45 +43,21 @@ export default function App() {
     return null;
   }
 
-  const AuthStack = createStackNavigator();
+
   
 
   return (
-    
-   
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+     
+    {/* <NavigationContainer> */}
     <View style={styles.container} onLayout={onLayoutRootView}>
-
-    <NavigationContainer>
-        
-        <AuthStack.Navigator initialRouteName="Login">
-          <AuthStack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <AuthStack.Screen
-            name="Registration"
-            component={RegistrationScreen}
-            options={{ headerShown: false }}
-          />
-          <AuthStack.Screen name="Create post" component={CreatePostsScreen} options={{ headerShown: false }} />
-          <AuthStack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-
-          <AuthStack.Screen
-            name="Coments"
-            component={CommentsScreen}
-            options={{}}
-          />
-          <AuthStack.Screen name="Map" component={MapScreen} options={{}} />
-        </AuthStack.Navigator>
-      </NavigationContainer>
-     <StatusBar style="auto" />
-    </View>
-  
+       <Main />
+       <StatusBar style="auto" />
+       </View>
+      {/* </NavigationContainer> */}
+      </PersistGate>
+    </Provider>
   );
 }
 

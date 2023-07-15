@@ -1,20 +1,28 @@
 import { View, StyleSheet,ImageBackground, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Image, TouchableWithoutFeedback,Keyboard, Platform } from "react-native"
 import { useState } from "react"
+import {authSignUpUser} from '../../Redux/auth/authOperations'
+import { useDispatch } from "react-redux"
 
+// const initialState={
+//   login: '',
+//   email: '',
+//   password:'',
 
-const initialState={
-  login: '',
-  email: '',
-  password:'',
-
-}
+// }
  const RegistrationScreen=({ navigation })=>{
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [isFocusInput, setIsFocusInput]=useState('')
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard]=useState(false);
-  const [formState, setFormState]=useState(initialState)
+  // const [formState, setFormState]=useState(initialState);
+  const dispatch=useDispatch();
 
-  const {login, email, password}=formState;
+  // const {login, email, password}=formState;
+  // console.log(formState)
+  
  
 
 const focusInput = (input)=>{
@@ -35,8 +43,12 @@ const handleKeyboardHide = () => {
 const handleSubmit=()=>{
   setIsShowKeyboard(false);
   Keyboard.dismiss();
-  console.log(formState)
-  setFormState(initialState)
+  dispatch(authSignUpUser())
+  // setFormState(initialState)
+  setLogin("")
+    setEmail("");
+    setPassword("");
+
 }
 
 
@@ -75,7 +87,8 @@ resizeMode="contain"
       focusInput('login') }}
     placeholder="Логін"
     value={login}
-    onChangeText={(value)=>{setFormState((prevState)=>({...prevState, login: value}))}}
+    // onChangeText={(value)=>{setFormState((prevState)=>({...prevState, login: value}))}}
+    onChangeText={setLogin}
     onSubmitEditing={handleKeyboardHide}
     />
   </View>
@@ -87,7 +100,8 @@ resizeMode="contain"
     focusInput('email')}}
   placeholder="Адреса електронної пошти"
   value={email}
-  onChangeText={(value)=>{setFormState((prevState)=>({...prevState, email: value}))}}
+  // onChangeText={(value)=>{setFormState((prevState)=>({...prevState, email: value}))}}
+  onChangeText={setEmail}
   onSubmitEditing={handleKeyboardHide}
   />
   </View>
@@ -101,7 +115,8 @@ resizeMode="contain"
   secureTextEntry={!isShowPassword}
   placeholder="Пароль"
   value={password}
-  onChangeText={(value)=>{setFormState((prevState)=>({...prevState, password: value}))}}
+  // onChangeText={(value)=>{setFormState((prevState)=>({...prevState, password: value}))}}
+  onChangeText={setPassword}
   onSubmitEditing={handleKeyboardHide}
   />
    <TouchableOpacity 
@@ -118,10 +133,7 @@ resizeMode="contain"
 <TouchableOpacity 
 style={styles.btn} 
   activeOpacity={0.8} 
-  onPress={()=>{
-    handleSubmit()
-    navigation.navigate("Home")
-  }}>
+  onPress={handleSubmit}>
 <Text style={styles.btnTitle}>Зареєстуватися</Text>
 
   </TouchableOpacity>

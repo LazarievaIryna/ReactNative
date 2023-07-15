@@ -106,7 +106,7 @@ resizeMode="contain"
   activeOpacity={0.8} 
   onPress={()=>{
     handleSubmit()
-    navigation.navigate("Home")
+    // navigation.navigate("Home")
   }}>
   <Text style={styles.btnTitle}>Увійти</Text>
     </TouchableOpacity>
