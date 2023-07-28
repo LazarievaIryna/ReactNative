@@ -11,7 +11,7 @@ import { StyleSheet,  View, Text} from 'react-native';
 import  RegistrationScreen  from './Screens/AuthScreens/RegistrationScreen';
 import * as SplashScreen from 'expo-splash-screen';
 // import {Router} from './Router'
-import { store, persistor } from './Redux/store';
+// import { store, persistor } from './Redux/store';
 import  LoginScreen from './Screens/AuthScreens/LoginScreen';
 import CommentsScreen from './Screens/OtherScreens/CommentsScreen'
 import CreatePostsScreen from './Screens/MainScreen/CreatePostsScreen';
