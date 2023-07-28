@@ -1,25 +1,21 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
-import { useRoute } from '../Router';
+import React, { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
 
-import { authStateChangeUser } from '../Redux/auth/authOperations';
+import { useRoute } from "../Routes/useRoute";
+import { authStateChangeUser } from "../redux/auth/authOperations";
 
-const Main = () => {
-  const { stateChange } = useSelector(state => state.auth);
+
+export const Main = () => {
   const dispatch = useDispatch();
-  
+
+  const { stateChange } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    dispatch(authStateChangeUser())
+    dispatch(authStateChangeUser());
   }, []);
 
   const routing = useRoute(stateChange);
-  
-  return (
-    <NavigationContainer>
-      {routing}
-    </NavigationContainer>
-  );
-};
 
-export default Main;
+  return <NavigationContainer>{routing}</NavigationContainer>;
+};

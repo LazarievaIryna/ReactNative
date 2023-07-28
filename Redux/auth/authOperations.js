@@ -8,9 +8,9 @@ import {
   
   import { Alert } from "react-native";
   
-  import { auth } from "../../firebase/config.js";
+  import { auth } from "../../firebase/config";
   
-  import { authSlice } from "./authSlice.js";
+  import { authSlice } from "./authSlice";
   
   const { updateUserProfile, authStateChange, authSignOut } = authSlice.actions;
   
@@ -76,4 +76,3 @@ import {
       }
     });
   };
-  
